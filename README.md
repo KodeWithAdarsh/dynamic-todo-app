@@ -40,7 +40,6 @@ It allows users to add, edit, delete, and filter tasks based on priority.
 
 You can access a live demo of this application here:
 https://dynamic-todo-app.onrender.com
-(e.g., `https://my-todo-list-app.onrender.com/`)
 
 ---
 *Built with Node.js, Express, and EJS*
