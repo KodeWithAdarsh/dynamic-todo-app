@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Todo List</title>
+    <!-- Link to your custom stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Include the header partial -->
+    <%- include('partials/header') %>
+
+    <main class="container">
+        <!-- Todo Creation Box -->
+        <section class="todo-form-section">
+            <h2>Add New Todo</h2>
+            <form action="/add-todo" method="POST" class="todo-form" id="addTodoForm">
+                <input type="text" name="task" id="todoTaskInput" placeholder="Enter a new todo task" class="form-input" required>
+                <select name="priority" id="todoPrioritySelect" class="form-select">
+                    <option value="Low">Low</option>
+                    <option value="Medium" selected>Medium</option>
+                    <option value="High">High</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Add Todo</button>
+            </form>
+            <!-- Display error message if present in query params -->
+            <% if (typeof error !== 'undefined' && error === 'empty') { %>
+                <p class="error-message">Please enter a task!</p>
+            <% } %>
+        </section>
+
+        <!-- Filter Option -->
+        <section class="filter-section">
+            <h2>Filter Todos</h2>
+            <select id="priorityFilter" class="form-select">
+                <option value="All" <%= filterPriority === 'All' ? 'selected' : '' %>>All</option>
+                <option value="High" <%= filterPriority === 'High' ? 'selected' : '' %>>High</option>
+                <option value="Medium" <%= filterPriority === 'Medium' ? 'selected' : '' %>>Medium</option>
+                <option value="Low" <%= filterPriority === 'Low' ? 'selected' : '' %>>Low</option>
+            </select>
+        </section>
+
+        <!-- Todo List Display -->
+        <section class="todo-list-section">
+            <h2>Your Todos</h2>
+            <ul class="todo-list">
+                <% if (todos.length === 0) { %>
+                    <li class="no-todos">No todos found. Add a new one!</li>
+                <% } else { %>
+                    <% todos.forEach(todo => { %>
+                        <li class="todo-item" data-id="<%= todo.id %>">
+                            <div class="todo-content">
+                                <span class="todo-task"><%= todo.task %></span>
+                                <span class="todo-priority priority-<%= todo.priority.toLowerCase() %>"><%= todo.priority %></span>
+                            </div>
+                            <div class="todo-actions">
+                                <button class="btn btn-secondary edit-btn">Edit</button>
+                                <button class="btn btn-danger delete-btn">Delete</button>
+                            </div>
+                        </li>
+                    <% }) %>
+                <% } %>
+            </ul>
+        </section>
+    </main>
+
+    <!-- Include the footer partial -->
+    <%- include('partials/footer') %>
+
+    <!-- Client-side JavaScript for interactivity -->
+    <script src="/js/script.js"></script>
+</body>
+</html>
